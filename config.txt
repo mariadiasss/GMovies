@@ -1,0 +1,120 @@
+-- Configurar o git
+git config --global user.name mariadiasss
+git config --global user.email mariacoelhodias94@gmail.com
+
+// Criar uma conta no site themoviedb.org
+
+npx create-expo-app@latest GMovies --template blank
+
+cd GMovies
+
+// React Navigation
+npm install @react-navigation/native
+npm install @react-navigation/native-stack
+npx expo install react-native-screens react-native-safe-area-context
+npx expo install react-native-gesture-handler
+
+// Tailwind - NativeWind
+npm install nativewind react-native-reanimated@~3.17.4 react-native-safe-area-context@5.4.0
+npm install --dev tailwindcss@3.4.17 prettier-plugin-tailwindcss@^0.5.11
+npx tailwindcss init
+
+// Carousel
+npm i react-native-reanimated-carousel
+npx expo install react-native-reanimated
+
+// React native heroicons
+npm i react-native-heroicons
+
+// Gradiente
+npm i expo-linear-gradient
+
+// Barra Progresso
+npm i react-native-progress
+
+// Fetch API - Axios
+npm i axios
+
+
+// Editar o arquivo tailwind.config.js
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  // NOTE: Update this to include the paths to all files that contain Nativewind classes.
+  content: ["./App.tsx", "./components/**/*.{js,jsx,ts,tsx}"],
+  presets: [require("nativewind/preset")],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}
+
+
+// Configuração do Babel:
+npx expo customize babel.config.js
+module.exports = function (api) {
+  api.cache(true);
+  return {
+    presets: [
+      ["babel-preset-expo", {
+        jsxImportSource: "nativewind"
+      }],
+      "nativewind/babel"
+    ],
+    plugins: [
+      "react-native-reanimated/plugin",
+    ],
+  };
+};
+
+
+// Criar o arquivo metro.config.js
+const { getDefaultConfig } = require("expo/metro-config");
+const { withNativeWind } = require('nativewind/metro');
+
+const config = getDefaultConfig(__dirname);
+
+module.exports = withNativeWind(config, { input: './global.css' });
+
+
+// Criar o arquivo global.css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+// Criar a pasta screens
+ 
+
+// Criar na pasta screens o arquivo HomeScreen.js:
+// rnf
+
+
+// Criar a pasta navigation e dentro o arquivo appNavigation.js
+//rnf
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import HomeScreen from '../screens/HomeScreen';
+
+const Stack = createNativeStackNavigator();
+
+export default function AppNavigation() {
+	return (
+		<NavigationContainer>
+			<Stack.Navigator>
+				<Stack.Screen name='Home' options={{headerShown: false}} component={HomeScreen} />
+			</Stack.Navigator>
+		</NavigationContainer>
+	)
+}
+
+
+// Alterar o arquivo App.js:
+import 'react-native-gesture-handler';
+import "./global.css";
+import AppNavigation from "./navigation/appNavigation";
+
+export default function App() {
+  return (
+    <AppNavigation />
+  );
+}
