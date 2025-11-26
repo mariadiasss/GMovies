@@ -3,12 +3,14 @@ import { View, Text, Dimensions, ScrollView, TouchableOpacity, Image, TextInput,
 import { useNavigation } from '@react-navigation/native'
 import { XMarkIcon } from 'react-native-heroicons/outline';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Loading from '../components/loading';
 
 var { width, height } = Dimensions.get('window');
 
 export default function SearchScreen() {
   const navigation = useNavigation();
   const [results, setResults] = useState([])
+  const [loading, setLoading] = useState(false)
   let movieName = "Joker: Folie a Deux";
   return (
     <SafeAreaView className="bg-neutral-800 flex-1">
@@ -27,6 +29,9 @@ export default function SearchScreen() {
 
       {/* resultado da pesquisa */}
       {
+        loading ? (
+          <Loading />
+        ) :
         results.length > 0 ? (
       <ScrollView
         showsVerticalScrollIndicator={false}

@@ -8,6 +8,7 @@ import { styles, theme } from '../theme';
 import { LinearGradient } from 'expo-linear-gradient';
 import Cast from '../components/cast';
 import MovieList from '../components/movieList';
+import Loading from '../components/loading';
 
 var { width, height } = Dimensions.get('window');
 
@@ -17,6 +18,7 @@ export default function MovieScreen() {
     const [cast, setCast] = useState([1,2,3,4,5]);
     const [similarMovies, setSimilarMovies] = useState([1, 2, 3, 4, 5])
     const navigation = useNavigation();
+    const [loading, setLoading] = useState(false);
     let movieName = "Joker: Folie à Deux";
     
     useEffect(() => {
@@ -37,7 +39,12 @@ export default function MovieScreen() {
                         <HeartIcon size="36" color={isFavorite ? theme.background : "white"}/>
                     </TouchableOpacity>
                 </SafeAreaView>
-            
+                { 
+                    loading ? (
+                        <Loading />
+                    ) : (
+                        <>
+                            <View>
                 <Image
                     source={require('../assets/images/moviePoster2.jpg')}
                     style={{ width: width, height: height * 0.55 }}
@@ -84,8 +91,13 @@ export default function MovieScreen() {
                  <Cast navigation={navigation} cast={cast} /> 
 
                  {/*Filmes Similares */}
-                 <MovieList title="Filmes Similares" hideSeeAll={true} data={similarMovies} />
+                {/* <MovieList title="Filmes Similares" hideSeeAll={true} data={similarMovies} /> */}
             </View>
+            </>
+        )
+    }
+
+    </View>    
         </ScrollView>
     )
 }

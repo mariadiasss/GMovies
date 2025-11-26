@@ -7,19 +7,23 @@ import { HeartIcon } from 'react-native-heroicons/solid';
 import { styles, theme } from '../theme';
 import { Shadow } from 'react-native-shadow-2';
 import MovieList from '../components/movieList';
+import Loading from '../components/loading';
 
 var { width, height } = Dimensions.get('window');
 
 export default function PersonScreen() {
   const { params: item } = useRoute();
   const navigation = useNavigation();
-  const [isFavorite, toggleFavorite] = useState(false)
-  const [personMovies, setPersonMovies] = useState([1,2,3,4])
+  const [isFavorite, toggleFavorite] = useState(false);
+  const [personMovies, setPersonMovies] = useState([1,2,3,4]);
+  const [loading, setLoading] = useState(false);
+
   return (
     <ScrollView
       contentContainerStyle={{ paddingBottom: 20, minHeight: '100%' }}
       className="flex-1 bg-neutral-900"
     >
+
       {/* Botões de Navegação */}
       <SafeAreaView className={"z-20 w-full flex-row justify-between items-center p-4 pt-3"}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.background} className="rounded-xl p-1">
@@ -33,6 +37,11 @@ export default function PersonScreen() {
       </SafeAreaView>
 
       {/* Dados da Pessoa */}
+      { 
+        loading ? (
+          <Loading />
+        ) : (
+
       <View>
         <View className="flex-row justify-center">
           <Shadow className="items-center overflow-hidden h-72 w-72 border-3 border-neutral-500" startColor="rgb(60 60 60)">
@@ -74,6 +83,10 @@ export default function PersonScreen() {
         {/* Filmes */}
         <MovieList title={'Filmes'} hideSeeAll={true} data={personMovies} />
       </View>
+
+      )
+    }
+
     </ScrollView>
   )
 }

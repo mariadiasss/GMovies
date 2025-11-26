@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, Dimensions, TouchableWithoutFeedback, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Carousel from "react-native-reanimated-carousel";
+import { image500 } from '../api/moviedb';
 
 var { width, height } = Dimensions.get('window');
 
@@ -38,7 +39,7 @@ const MovieCard = ({ item, handleClick }) => {
   return (
     <TouchableWithoutFeedback onPress={() => handleClick(item)}>
       <Image
-        source={require('../assets/images/moviePoster1.jpg')}
+        source={{ uri: image500(item.poster_path)}}
         style={{ width: '100%', height: '100%' }}
         className="rounded-2xl"
       />
