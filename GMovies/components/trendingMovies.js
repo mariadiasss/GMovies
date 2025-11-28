@@ -1,48 +1,51 @@
-import React from 'react';
-import { View, Text, Dimensions, TouchableWithoutFeedback, Image } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import Carousel from "react-native-reanimated-carousel";
-import { image500 } from '../api/moviedb';
+import React from 'react'
+import { View, Text, TouchableOpacity, ScrollView, TouchableWithoutFeedback, Image, Dimensions } from 'react-native'
+import { styles } from '../theme'
+import { useNavigation } from '@react-navigation/native'
+import { image185 } from '../api/moviedb'
 
 var { width, height } = Dimensions.get('window');
 
-export default function TrendingMovies({ data }) {
+export default function MovieList({ title, data }) {
+
   const navigation = useNavigation();
-  const handleClick = (item) => {
-    navigation.navigate('Movie', item);
-  }
-
   return (
-    <View className="mb-8">
-      <Text className="text-white text-xl mx-4 mb-3">Em Alta</Text>
-      <Carousel
-        loop
-        width={width * 0.6}
-        height={height * 0.4}
-        autoPlay={false}
-        data={data}
-        renderItem={({ item }) =>
-          <MovieCard item={item} handleClick={handleClick} />}
-        mode='parallax'
-        modeConfig={{
-          parallaxScrollingScale: 1,
-          parallaxScrollingOffset: 1,
-          parallaxAdjacentItemScale: 0.9
-        }}
-        style={{ width: width, justifyContent: 'center' }}
-      />
+    <View className="mb-9 space-y-4">
+      <View className="mx-4 flex-row justify-between items-center">
+        <Text className="text-white text-xl">{title}</Text>
+        <TouchableOpacity>
+          <Text style={styles.text} className="text-lg">Ver todos</Text>
+        </TouchableOpacity>
+      </View>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{ paddingHorizontal: 15 }}
+      >
+        {
+          data.map((item, index) => {
+            return (
+              <TouchableWithoutFeedback
+                key={index}
+                onPress={() => navigation.navigate('Movie', item)}
+              >
+                <View className="space-y-1 mr-4">
+                  <Image
+                    source={{ uri: image185(item.poster_path) }}
+                    className="rounded-2-xl"
+                    style={{ width: width * 0.35, height: height * 0.26 }}
+                  />
+                  <Text className="text-neutral-300 ml-1 text-center">
+                    {
+                      item.title.length > 14 ? item.title.slice(0, 14) + '...' : item.title
+                    }
+                  </Text>
+                </View>
+              </TouchableWithoutFeedback>
+            )
+          })
+        }
+      </ScrollView>
     </View>
-  )
-}
-
-const MovieCard = ({ item, handleClick }) => {
-  return (
-    <TouchableWithoutFeedback onPress={() => handleClick(item)}>
-      <Image
-        source={{ uri: image500(item.poster_path)}}
-        style={{ width: '100%', height: '100%' }}
-        className="rounded-2xl"
-      />
-    </TouchableWithoutFeedback>
   )
 }

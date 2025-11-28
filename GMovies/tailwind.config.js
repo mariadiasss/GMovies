@@ -2,7 +2,7 @@
 module.exports = {
   // NOTE: Update this to include the paths to all files that contain Nativewind classes.
   content: [
-    "./App.js", 
+    "./App.js",
     "./components/**/*.{js,jsx,ts,tsx}",
     "./screens/**/*.{js,jsx,ts,tsx}"
   ],
@@ -12,3 +12,4 @@ module.exports = {
   },
   plugins: [],
 }
+
